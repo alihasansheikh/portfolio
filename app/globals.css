@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+/* ————————————————————————————————————————————————
+   Token system — "engineering spec sheet"
+   paper   : cool drafting paper, faint grid
+   ink     : deep pine ink
+   cobalt  : blueprint accent (requests, links, GET)
+   post    : green (POST — Swagger convention)
+   rule    : hairline dividers
+———————————————————————————————————————————————— */
+:root {
+  --paper: #f2f5f4;
+  --paper-raised: #fafcfb;
+  --ink: #0e1b17;
+  --ink-soft: #44544f;
+  --cobalt: #2242c8;
+  --cobalt-soft: #e6eafd;
+  --post-green: #0b7a4b;
+  --post-green-soft: #e2f2ea;
+  --rule: #d7dfdc;
+  --grid: rgba(20, 45, 38, 0.045);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-cobalt: var(--cobalt);
+  --color-cobalt-soft: var(--cobalt-soft);
+  --color-rule: var(--rule);
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--paper);
+  /* faint drafting grid — the quiet signature of the whole page */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--cobalt);
+  color: var(--paper);
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ————— type roles ————— */
+.display {
+  font-family: var(--font-sans);
+  font-weight: 750;
+  font-stretch: 112%;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.mono-data {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ————— endpoint nav / method chips ————— */
+.method {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+}
+.method-get {
+  color: var(--cobalt);
+  background: var(--cobalt-soft);
+}
+.method-post {
+  color: var(--post-green);
+  background: var(--post-green-soft);
+}
+
+.endpoint-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 120ms ease;
+}
+.endpoint-link:hover {
+  color: var(--cobalt);
+}
+
+/* ————— status chips on case studies (encode true deploy status) ————— */
+.status-chip {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.55rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.status-prod {
+  color: var(--post-green);
+  background: var(--post-green-soft);
+}
+.status-repo {
+  color: var(--cobalt);
+  background: var(--cobalt-soft);
+}
+
+/* ————— spec card ————— */
+.spec-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* the one inversion per card: outcome readout */
+.readout {
+  background: var(--ink);
+  color: var(--paper);
+}
+.readout .readout-label {
+  color: rgba(242, 245, 244, 0.55);
+}
+
+/* ————— tech chip ————— */
+.tech-chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* ————— buttons ————— */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.7rem 1.15rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-primary:hover {
+  background: var(--cobalt);
+}
+.btn-ghost {
+  border: 1px solid var(--rule);
+  background: var(--paper-raised);
+  color: var(--ink);
+}
+.btn-ghost:hover {
+  border-color: var(--cobalt);
+  color: var(--cobalt);
+}
+
+/* ————— system diagram (hero signature) ————— */
+.diagram-box {
+  fill: var(--paper-raised);
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+.diagram-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  fill: var(--ink);
+}
+.diagram-sublabel {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: var(--ink-soft);
+}
+.diagram-path {
+  stroke: var(--cobalt);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+  fill: none;
+}
+.diagram-dot {
+  fill: var(--cobalt);
+}
+.diagram-note {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  fill: var(--cobalt);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .diagram-dot,
+  .diagram-dot-2 {
+    display: none;
+  }
+}

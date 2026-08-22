@@ -2,7 +2,7 @@ import CaseStudy from "@/components/CaseStudy";
 import SystemDiagram from "@/components/SystemDiagram";
 import { projects, stacks } from "@/data/projects";
 
-const EMAIL = "alihasansheikh01@gmail.com";
+const EMAIL = "ali@alihasansheikh.com";
 const WHATSAPP = "https://wa.me/923102022630";
 const GITHUB = "https://github.com/alihasansheikh";
 const LINKEDIN = "https://www.linkedin.com/in/alihasansheikh1";

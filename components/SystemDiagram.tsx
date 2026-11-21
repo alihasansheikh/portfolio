@@ -1,94 +1,82 @@
-export default function SystemDiagram() {
+import type { SiteCopy } from "@/data/copy";
+
+type Labels = SiteCopy["engineers"]["diagram_labels"];
+
+// Hand-drawn request-flow diagram. Reader-facing labels on top, the tech nouns as sublabels.
+// Rendered at full column width so labels stay at 12px or more; scrolls sideways on small screens.
+export default function SystemDiagram({ labels }: { labels: Labels }) {
   return (
     <svg
-      viewBox="0 0 460 300"
+      viewBox="0 0 520 300"
       role="img"
-      aria-label="System diagram: a request travels from the client through Nginx to the API, which talks to MySQL and Redis"
-      className="w-full h-auto"
+      aria-label="System diagram: a request travels from the customer's browser through the server to the app, which reads and writes the database and cache"
+      className="w-full h-auto min-w-[520px]"
     >
-      {/* request path: client -> nginx -> api */}
-      <path className="diagram-path" d="M 88 62 L 168 62" />
-      <path className="diagram-path" d="M 292 62 L 292 128" />
-      {/* api -> mysql */}
-      <path className="diagram-path" d="M 292 200 L 292 236" />
-      {/* api -> redis */}
-      <path className="diagram-path" d="M 356 164 L 404 164" />
+      {/* request path: client -> server -> app */}
+      <path className="diagram-path" d="M 116 64 L 176 64" />
+      <path className="diagram-path" d="M 292 64 L 330 64 L 330 128" />
+      {/* app -> database */}
+      <path className="diagram-path" d="M 330 204 L 330 240" />
+      {/* app -> cache */}
+      <path className="diagram-path" d="M 398 166 L 436 166" />
 
-      {/* CLIENT */}
       <g>
-        <rect className="diagram-box" x="16" y="40" width="72" height="44" rx="4" />
-        <text className="diagram-label" x="52" y="59" textAnchor="middle">
-          CLIENT
+        <rect className="diagram-box" x="12" y="40" width="104" height="48" rx="4" />
+        <text className="diagram-label" x="64" y="61" textAnchor="middle">
+          {labels.client}
         </text>
-        <text className="diagram-sublabel" x="52" y="73" textAnchor="middle">
-          browser / app
+        <text className="diagram-sublabel" x="64" y="77" textAnchor="middle">
+          {labels.client_sub}
         </text>
       </g>
 
-      {/* NGINX */}
       <g>
-        <rect className="diagram-box" x="168" y="40" width="80" height="44" rx="4" />
-        <text className="diagram-label" x="208" y="59" textAnchor="middle">
-          NGINX
+        <rect className="diagram-box" x="176" y="40" width="116" height="48" rx="4" />
+        <text className="diagram-label" x="234" y="61" textAnchor="middle">
+          {labels.server}
         </text>
-        <text className="diagram-sublabel" x="208" y="73" textAnchor="middle">
-          linux vps
-        </text>
-        <path className="diagram-path" d="M 248 62 L 292 62 L 292 62" />
-      </g>
-
-      {/* API */}
-      <g>
-        <rect className="diagram-box" x="228" y="128" width="128" height="72" rx="4" />
-        <text className="diagram-label" x="292" y="152" textAnchor="middle">
-          API
-        </text>
-        <text className="diagram-sublabel" x="292" y="168" textAnchor="middle">
-          spring boot · laravel
-        </text>
-        <text className="diagram-sublabel" x="292" y="182" textAnchor="middle">
-          auth · rbac · webhooks
+        <text className="diagram-sublabel" x="234" y="77" textAnchor="middle">
+          {labels.server_sub}
         </text>
       </g>
 
-      {/* MYSQL */}
       <g>
-        <rect className="diagram-box" x="240" y="236" width="104" height="44" rx="4" />
-        <text className="diagram-label" x="292" y="255" textAnchor="middle">
-          MYSQL
+        <rect className="diagram-box" x="262" y="128" width="136" height="76" rx="4" />
+        <text className="diagram-label" x="330" y="160" textAnchor="middle">
+          {labels.app}
         </text>
-        <text className="diagram-sublabel" x="292" y="269" textAnchor="middle">
-          115+ migrations
+        <text className="diagram-sublabel" x="330" y="178" textAnchor="middle">
+          {labels.app_sub}
         </text>
       </g>
 
-      {/* REDIS */}
       <g>
-        <rect className="diagram-box" x="404" y="142" width="48" height="44" rx="4" />
-        <text className="diagram-label" x="428" y="161" textAnchor="middle">
-          REDIS
+        <rect className="diagram-box" x="262" y="240" width="136" height="48" rx="4" />
+        <text className="diagram-label" x="330" y="261" textAnchor="middle">
+          {labels.db}
         </text>
-        <text className="diagram-sublabel" x="428" y="175" textAnchor="middle">
-          cache
+        <text className="diagram-sublabel" x="330" y="277" textAnchor="middle">
+          {labels.db_sub}
         </text>
       </g>
 
-      {/* annotation */}
-      <text className="diagram-note" x="16" y="24">
-        200 OK — the part users never see
+      <g>
+        <rect className="diagram-box" x="436" y="142" width="72" height="48" rx="4" />
+        <text className="diagram-label" x="472" y="163" textAnchor="middle">
+          {labels.cache}
+        </text>
+        <text className="diagram-sublabel" x="472" y="179" textAnchor="middle">
+          {labels.cache_sub}
+        </text>
+      </g>
+
+      <text className="diagram-note" x="12" y="24">
+        {labels.note}
       </text>
 
-      {/* animated request dot: client -> nginx -> api -> mysql and back */}
-      <circle className="diagram-dot" r="3.5">
-        <animateMotion
-          dur="5s"
-          repeatCount="indefinite"
-          path="M 88 62 L 292 62 L 292 164 L 292 258 L 292 164 L 292 62 L 88 62"
-          keyPoints="0;0.5;0.5;1"
-          keyTimes="0;0.45;0.55;1"
-          calcMode="linear"
-        />
-      </circle>
+      {/* Request dot: client, server, app, database and back. Animated in CSS rather than
+          SMIL so the checkbox beneath the diagram can pause it. */}
+      <circle className="diagram-dot" r="3.5" />
     </svg>
   );
 }

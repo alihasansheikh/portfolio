@@ -19,6 +19,7 @@
   --post-green-soft: #e2f2ea;
   --rule: #d7dfdc;
   --grid: rgba(20, 45, 38, 0.045);
+  --error: #b42318;
 }
 
 @theme inline {
@@ -33,209 +34,421 @@
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--paper);
+    /* faint drafting grid — the quiet signature of the whole page */
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--cobalt);
+    color: var(--paper);
+  }
+
+  /* Visible keyboard focus everywhere */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  [tabindex="0"]:focus-visible {
+    outline: 2px solid var(--cobalt);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
 }
 
-body {
-  background-color: var(--paper);
-  /* faint drafting grid — the quiet signature of the whole page */
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 28px 28px;
-  color: var(--ink);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-}
+/* Component classes live in the components layer so Tailwind utilities (hidden, lg:inline, ...) can override them. */
+@layer components {
+  /* ————— type roles (five sizes: 12 / 14 / 16 / 18 / display) ————— */
+  .display {
+    font-family: var(--font-sans);
+    font-weight: 750;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
 
-::selection {
-  background: var(--cobalt);
-  color: var(--paper);
-}
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
 
-/* Visible keyboard focus everywhere */
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--cobalt);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
+  .mono-data {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
 
-/* ————— type roles ————— */
-.display {
-  font-family: var(--font-sans);
-  font-weight: 750;
-  font-stretch: 112%;
-  letter-spacing: -0.02em;
-  line-height: 1.02;
-}
+  /* endpoint caption: the motif, demoted to a secondary detail */
+  .path-caption {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
 
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
+  /* ————— method chips ————— */
+  .method {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+  }
+  .method-get {
+    color: var(--cobalt);
+    background: var(--cobalt-soft);
+  }
+  .method-post {
+    color: var(--post-green);
+    background: var(--post-green-soft);
+  }
 
-.mono-data {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-}
+  /* ————— navigation ————— */
+  .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 44px;
+    padding: 0.25rem 0;
+    font-size: 0.95rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+  .nav-link:hover {
+    color: var(--cobalt);
+  }
+  /* mobile: one scrolling row, no visible scrollbar */
+  .nav-row {
+    scrollbar-width: none;
+  }
+  .nav-row::-webkit-scrollbar {
+    display: none;
+  }
 
-/* ————— endpoint nav / method chips ————— */
-.method {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 0.15rem 0.4rem;
-  border-radius: 3px;
-}
-.method-get {
-  color: var(--cobalt);
-  background: var(--cobalt-soft);
-}
-.method-post {
-  color: var(--post-green);
-  background: var(--post-green-soft);
-}
+  /* ————— text links: at least 44px tall so they are easy to tap ————— */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--rule);
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+  .text-link:hover {
+    color: var(--cobalt);
+    text-decoration-color: var(--cobalt);
+  }
+  .text-link-inverse {
+    color: var(--paper);
+    text-decoration-color: rgba(242, 245, 244, 0.4);
+  }
+  .text-link-inverse:hover {
+    color: var(--paper);
+    text-decoration-color: var(--paper);
+  }
 
-.endpoint-link {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.45rem 0;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 120ms ease;
-}
-.endpoint-link:hover {
-  color: var(--cobalt);
-}
+  /* ————— ruled row lists (services, process) ————— */
+  .row-list {
+    border-bottom: 1px solid var(--rule);
+  }
+  .row-list > li {
+    border-top: 1px solid var(--rule);
+  }
 
-/* ————— status chips on case studies (encode true deploy status) ————— */
-.status-chip {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.55rem;
-  border-radius: 3px;
-  white-space: nowrap;
-}
-.status-prod {
-  color: var(--post-green);
-  background: var(--post-green-soft);
-}
-.status-repo {
-  color: var(--cobalt);
-  background: var(--cobalt-soft);
-}
+  /* ————— status chips on case studies (encode true deploy status) ————— */
+  .status-chip {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.55rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .status-prod {
+    color: var(--post-green);
+    background: var(--post-green-soft);
+  }
+  .status-repo {
+    color: var(--cobalt);
+    background: var(--cobalt-soft);
+  }
 
-/* ————— spec card ————— */
-.spec-card {
-  background: var(--paper-raised);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  overflow: hidden;
-}
+  /* ————— spec card ————— */
+  .spec-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
 
-/* the one inversion per card: outcome readout */
-.readout {
-  background: var(--ink);
-  color: var(--paper);
-}
-.readout .readout-label {
-  color: rgba(242, 245, 244, 0.55);
-}
+  /* the one inversion per card: engineering readout */
+  .readout {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .readout .readout-label {
+    font-size: 0.75rem;
+    color: rgba(242, 245, 244, 0.6);
+  }
 
-/* ————— tech chip ————— */
-.tech-chip {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--ink-soft);
-  border: 1px solid var(--rule);
-  background: var(--paper);
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  white-space: nowrap;
-}
+  /* ————— tech chip ————— */
+  .tech-chip {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
 
-/* ————— buttons ————— */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: 0.7rem 1.15rem;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-}
-.btn-primary {
-  background: var(--ink);
-  color: var(--paper);
-}
-.btn-primary:hover {
-  background: var(--cobalt);
-}
-.btn-ghost {
-  border: 1px solid var(--rule);
-  background: var(--paper-raised);
-  color: var(--ink);
-}
-.btn-ghost:hover {
-  border-color: var(--cobalt);
-  color: var(--cobalt);
-}
+  /* ————— native disclosures: engineering detail, full stack, FAQ ————— */
+  .disclosure {
+    border-top: 1px solid var(--rule);
+  }
+  .disclosure > summary,
+  .faq-item > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 52px;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--ink);
+    transition: color 120ms ease;
+  }
+  .disclosure > summary {
+    padding: 0.6rem 1.5rem;
+  }
+  /* .spec-card sets overflow:hidden, which would clip an outside ring */
+  .disclosure > summary:focus-visible {
+    outline-offset: -4px;
+  }
+  .disclosure > summary::-webkit-details-marker,
+  .faq-item > summary::-webkit-details-marker {
+    display: none;
+  }
+  .disclosure > summary:hover,
+  .faq-item > summary:hover {
+    color: var(--cobalt);
+  }
+  .disclosure-marker {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+  .disclosure-marker::before,
+  .disclosure-marker::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    inset: 5px 0;
+  }
+  .disclosure-marker::after {
+    inset: 0 5px;
+    transition: transform 160ms ease;
+  }
+  details[open] > summary .disclosure-marker::after {
+    transform: scaleY(0);
+  }
 
-/* ————— system diagram (hero signature) ————— */
-.diagram-box {
-  fill: var(--paper-raised);
-  stroke: var(--ink);
-  stroke-width: 1.2;
-}
-.diagram-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  fill: var(--ink);
-}
-.diagram-sublabel {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  fill: var(--ink-soft);
-}
-.diagram-path {
-  stroke: var(--cobalt);
-  stroke-width: 1.2;
-  stroke-dasharray: 4 4;
-  fill: none;
-}
-.diagram-dot {
-  fill: var(--cobalt);
-}
-.diagram-note {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  fill: var(--cobalt);
+  .faq-item {
+    border-top: 1px solid var(--rule);
+  }
+  .faq-item > summary {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 500;
+    padding: 0.85rem 0;
+  }
+
+  /* ————— buttons ————— */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.6rem 1.15rem;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn-primary:hover {
+    background: var(--cobalt);
+  }
+  .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .btn-ghost {
+    border: 1px solid var(--rule);
+    background: var(--paper-raised);
+    color: var(--ink);
+  }
+  .btn-ghost:hover {
+    border-color: var(--cobalt);
+    color: var(--cobalt);
+  }
+
+  /* ————— contact form ————— */
+  .field {
+    display: grid;
+    gap: 0.45rem;
+  }
+  .input {
+    width: 100%;
+    min-height: 44px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.65rem 0.85rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    transition: border-color 120ms ease;
+  }
+  .input::placeholder {
+    color: var(--ink-soft);
+  }
+  .input:hover {
+    border-color: #b8c4bf;
+  }
+  .input:focus-visible {
+    outline: 2px solid var(--cobalt);
+    outline-offset: 2px;
+    border-color: var(--cobalt);
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--error);
+  }
+  .field-error {
+    font-size: 0.875rem;
+    color: var(--error);
+  }
+  /* honeypot: removed from the layout, so autofill skips it but HTML-parsing bots do not */
+  .hp {
+    display: none;
+  }
+
+  /* ————— photo ————— */
+  .photo {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+
+  /* ————— system diagram ————— */
+  .diagram-box {
+    fill: var(--paper-raised);
+    stroke: var(--ink);
+    stroke-width: 1.2;
+  }
+  .diagram-label {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    fill: var(--ink);
+  }
+  .diagram-sublabel {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--ink-soft);
+  }
+  .diagram-path {
+    stroke: var(--cobalt);
+    stroke-width: 1.2;
+    stroke-dasharray: 4 4;
+    fill: none;
+  }
+  .diagram-dot {
+    fill: var(--cobalt);
+    transform-box: view-box;
+    transform-origin: 0 0;
+    animation: diagram-travel 6s linear infinite;
+  }
+  @keyframes diagram-travel {
+    0% { transform: translate(116px, 64px); }
+    30% { transform: translate(330px, 64px); }
+    45% { transform: translate(330px, 264px); }
+    55% { transform: translate(330px, 264px); }
+    70% { transform: translate(330px, 64px); }
+    100% { transform: translate(116px, 64px); }
+  }
+  /* WCAG 2.2.2: any visitor can stop the motion, not only those with a system setting */
+  .diagram-figure:has(#pause-diagram:checked) .diagram-dot {
+    animation-play-state: paused;
+  }
+  .motion-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+  .motion-toggle label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    cursor: pointer;
+  }
+  .motion-toggle input {
+    accent-color: var(--cobalt);
+    width: 1rem;
+    height: 1rem;
+  }
+  .diagram-note {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    fill: var(--cobalt);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .diagram-dot,
-  .diagram-dot-2 {
+  .diagram-dot {
     display: none;
+  }
+  .disclosure-marker::after {
+    transition: none;
   }
 }

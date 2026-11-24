@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { copy } from "@/data/copy";
+import { SITE_URL, EMAIL, GITHUB, LINKEDIN } from "@/data/links";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -14,59 +16,75 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
 });
 
-const SITE_URL = "https://alihasansheikh.com";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Ali Hasan Sheikh — Backend Engineer · Spring Boot & Laravel",
-  description:
-    "Backend engineer in Karachi building production multi-tenant SaaS for UK clients. Java/Spring Boot & PHP/Laravel — 210+ REST endpoints shipped, sole engineer end to end.",
+  title: copy.meta.title,
+  description: copy.meta.description,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Ali Hasan Sheikh — Backend Engineer",
-    description:
-      "APIs, data models and infrastructure for production SaaS. Java/Spring Boot & PHP/Laravel.",
+    title: copy.meta.title,
+    description: copy.meta.description,
     url: SITE_URL,
     siteName: "alihasansheikh.com",
     type: "website",
+    locale: "en_GB",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: copy.meta.title,
+    description: copy.meta.description,
   },
 };
 
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${SITE_URL}/#person`,
   name: "Ali Hasan Sheikh",
-  jobTitle: "Backend Software Engineer",
+  jobTitle: "Software Developer",
   url: SITE_URL,
-  email: "mailto:ali@alihasansheikh.com",
-  sameAs: [
-    "https://github.com/alihasansheikh",
-    "https://www.linkedin.com/in/alihasansheikh1",
-  ],
+  email: EMAIL,
+  image: `${SITE_URL}/ali.jpg`,
+  sameAs: [GITHUB, LINKEDIN],
   address: {
     "@type": "PostalAddress",
     addressLocality: "Karachi",
     addressCountry: "PK",
   },
-  knowsAbout: [
-    "Java",
-    "Spring Boot",
-    "PHP",
-    "Laravel",
-    "MySQL",
-    "REST API design",
-    "Multi-tenant SaaS architecture",
-  ],
+  knowsAbout: ["Laravel", "PHP", "WordPress", "MySQL", "Java", "Spring Boot", "n8n", "REST API design"],
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${SITE_URL}/#service`,
+  name: "Ali Hasan Sheikh · software development",
+  url: SITE_URL,
+  founder: { "@id": `${SITE_URL}/#person` },
+  areaServed: { "@type": "Country", name: "United Kingdom" },
+  availableLanguage: "en",
+  priceRange: "$49 - $999",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: copy.services.heading,
+    itemListElement: copy.services.items.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.title, description: s.what_i_do },
+      priceCurrency: "USD",
+      price: s.from_price.replace(/[^0-9.]/g, ""),
+    })),
+  },
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <body className={`${archivo.variable} ${plexMono.variable}`}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, serviceSchema]) }}
         />
         {children}
       </body>

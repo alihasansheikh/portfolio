@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Phones whose visible screen is short, such as an iPhone SE or any phone with the
+   browser bars showing. The hero tightens its spacing there. */
+@custom-variant short (@media (max-width: 767.98px) and (max-height: 700px));
+
 /* ————————————————————————————————————————————————
    Tokens
    stone  : grey hero ground, behind the cut-out photo

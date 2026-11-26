@@ -29,10 +29,10 @@ export default function Hero({
     <section
       ref={ref}
       aria-labelledby="hero-title"
-      className="on-stone relative isolate flex flex-col overflow-hidden bg-stone text-ink md:h-svh md:min-h-[760px]"
+      className="on-stone relative isolate flex min-h-svh flex-col overflow-hidden bg-stone text-ink md:h-svh md:min-h-[760px]"
     >
       {/* top bar */}
-      <div className="relative z-20 flex items-center justify-between px-5 py-6 text-base font-medium sm:px-12 sm:py-8">
+      <div className="relative z-20 flex items-center justify-between px-5 py-5 text-base font-medium short:py-3 sm:px-12 sm:py-8">
         <a href="#top" className="inline-flex min-h-11 items-center">
           {header.mark}
         </a>
@@ -74,17 +74,17 @@ export default function Hero({
       {/* promise */}
       <motion.div
         style={{ y: textY }}
-        className="relative z-20 px-5 pt-6 sm:px-12 md:absolute md:right-12 md:top-[24%] md:max-w-[29rem] md:px-0 md:pt-0"
+        className="relative z-20 px-5 pt-3 short:pt-0 sm:px-12 md:absolute md:right-12 md:top-[24%] md:max-w-[29rem] md:px-0 md:pt-0"
       >
-        <p className="mb-4 text-sm font-medium lg:hidden">
+        <p className="mb-3 text-sm font-medium short:mb-2 lg:hidden">
           {hero.location_line_1} · {hero.location_line_2}
         </p>
         <ArrowDownRight aria-hidden className="mb-6 hidden size-8 md:block" strokeWidth={1.6} />
-        <h1 id="hero-title" className="text-[2rem] font-[450] leading-[1.12] tracking-[-0.015em] sm:text-[2.4rem]">
+        <h1 id="hero-title" className="text-[2rem] font-[450] leading-[1.12] tracking-[-0.015em] short:text-[1.7rem] sm:text-[2.4rem]">
           {hero.h1}
         </h1>
-        <p className="mt-4 max-w-md text-base leading-relaxed sm:text-[17px]">{hero.sub}</p>
-        <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+        <p className="mt-4 max-w-md text-base leading-relaxed short:mt-3 short:text-[15px] short:leading-normal sm:text-[17px]">{hero.sub}</p>
+        <div className="mt-7 flex flex-wrap short:mt-5 items-center gap-x-5 gap-y-3">
           <Magnet padding={30} magnetStrength={4}>
             <a
               href="#contact"
@@ -94,13 +94,13 @@ export default function Hero({
             </a>
           </Magnet>
         </div>
-        <p className="mt-4 text-sm font-medium">{hero.note}</p>
+        <p className="mt-4 text-sm font-medium short:mt-3">{hero.note}</p>
       </motion.div>
 
       {/* photo */}
       <motion.div
         style={{ y: photoY }}
-        className="hero-photo pointer-events-none relative z-0 mx-auto mt-8 h-[25rem] md:absolute md:bottom-0 md:left-[46%] md:mt-0 md:h-[min(78%,640px)] md:-translate-x-1/2"
+        className="hero-photo pointer-events-none relative z-0 mt-4 min-h-[15rem] w-full flex-1 short:mt-3 short:min-h-[11rem] md:absolute md:bottom-0 md:left-[46%] md:mt-0 md:h-[min(78%,640px)] md:min-h-0 md:w-auto md:flex-none md:-translate-x-1/2"
       >
         <Image
           src="/ali-cutout.webp"
@@ -109,17 +109,17 @@ export default function Hero({
           height={1050}
           priority
           sizes="(min-width: 768px) 700px, 90vw"
-          className="h-full w-auto max-w-none"
+          className="absolute bottom-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2 md:static md:translate-x-0"
         />
       </motion.div>
 
       {/* running name; decorative, the h1 and the header already name the page */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-6 z-10 sm:bottom-10">
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-5 z-10 short:bottom-3 sm:bottom-10">
         <ScrollVelocity
           texts={[`${hero.marquee} —`]}
           velocity={-60}
           numCopies={4}
-          className="pr-[0.35em] text-[7.5rem] font-light leading-none tracking-[-0.03em] text-white sm:text-[clamp(8rem,15.5vw,15rem)]"
+          className="pr-[0.35em] text-[6.5rem] font-light short:text-[4.25rem] leading-none tracking-[-0.03em] text-white sm:text-[clamp(8rem,15.5vw,15rem)]"
         />
       </div>
     </section>

@@ -27,25 +27,26 @@ export default function SiteMenu({ header, nav }: { header: SiteCopy["header"]; 
       <div
         className={cn(
           "fixed right-4 top-4 z-[70] transition-[opacity,transform,visibility] duration-300 sm:right-8 sm:top-6 motion-reduce:transition-none",
-          scrolled || open ? "opacity-100" : "md:invisible md:scale-75 md:opacity-0",
+          // While the panel is open its own close button takes this spot.
+          open ? "invisible opacity-0" : scrolled ? "opacity-100" : "md:invisible md:scale-75 md:opacity-0",
         )}
       >
         <Magnet padding={40} magnetStrength={3}>
           <Dialog.Trigger
-            aria-label={open ? header.close_label : header.menu_label}
+            aria-label={header.menu_label}
             className="relative z-[60] grid size-14 place-items-center rounded-full bg-ink text-white transition-colors hover:bg-blue sm:size-16"
           >
             <span aria-hidden className="relative block h-3 w-6">
               <span
                 className={cn(
                   "absolute left-0 h-0.5 w-full bg-current transition-transform duration-300",
-                  open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0",
+                  "top-0",
                 )}
               />
               <span
                 className={cn(
                   "absolute left-0 h-0.5 w-full bg-current transition-transform duration-300",
-                  open ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0",
+                  "bottom-0",
                 )}
               />
             </span>
@@ -88,6 +89,17 @@ export default function SiteMenu({ header, nav }: { header: SiteCopy["header"]; 
                 exit={{ x: "100%" }}
                 transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
               >
+                {/* Inside the dialog, so it works with touch as well as a mouse: a modal dialog
+                    blocks presses on anything outside its own content. */}
+                <Dialog.Close
+                  aria-label={header.close_label}
+                  className="absolute right-4 top-4 grid size-14 place-items-center rounded-full bg-white text-ink transition-colors hover:bg-blue hover:text-white sm:right-8 sm:top-6 sm:size-16"
+                >
+                  <span aria-hidden className="relative block size-6">
+                    <span className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 rotate-45 bg-current" />
+                    <span className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 -rotate-45 bg-current" />
+                  </span>
+                </Dialog.Close>
                 <Dialog.Title className="border-b border-dark-line pb-6 text-sm text-dark-soft">
                   {header.nav_heading}
                 </Dialog.Title>

@@ -36,35 +36,28 @@ export default async function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "64px 72px",
-          background: "#f2f5f4",
-          backgroundImage:
-            "linear-gradient(rgba(20,45,38,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(20,45,38,0.06) 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-          color: "#0e1b17",
+          background: "#8d9192",
+          color: "#1c1d20",
           fontFamily: family,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 26 }}>
-          <span
-            style={{
-              background: "#e2f2ea",
-              color: "#0b7a4b",
-              padding: "6px 12px",
-              borderRadius: 6,
-              fontSize: 22,
-              letterSpacing: 2,
-            }}
-          >
-            POST
-          </span>
-          <span style={{ color: "#44544f" }}>/contact</span>
-        </div>
-        <div style={{ display: "flex", fontSize: 68, fontWeight: 700, lineHeight: 1.06, letterSpacing: -2, maxWidth: 1040 }}>
+        <div style={{ display: "flex", fontSize: 26 }}>© Built by Ali</div>
+        <div style={{ display: "flex", fontSize: 74, fontWeight: 700, lineHeight: 1.04, letterSpacing: -2.5, maxWidth: 1000 }}>
           {copy.meta.og_headline}
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 28, color: "#44544f" }}>
-          <span>Ali Hasan Sheikh · {copy.rail.role_label}</span>
-          <span style={{ color: "#2242c8" }}>alihasansheikh.com</span>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", fontSize: 26 }}>
+          <span style={{ display: "flex", maxWidth: 760 }}>{copy.meta.og_sub}</span>
+          <span
+            style={{
+              display: "flex",
+              background: "#1c1d20",
+              color: "#fff",
+              padding: "14px 26px",
+              borderRadius: 999,
+            }}
+          >
+            alihasansheikh.com
+          </span>
         </div>
       </div>
     ),

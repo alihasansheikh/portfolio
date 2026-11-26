@@ -1,30 +1,46 @@
 import Image from "next/image";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import TwoTone from "@/components/TwoTone";
+import { LINKEDIN } from "@/data/links";
 import type { SiteCopy } from "@/data/copy";
-import SectionHeading from "./SectionHeading";
 
 export default function About({ copy }: { copy: SiteCopy["about"] }) {
   return (
-    <section id="about" className="scroll-mt-10 mt-24">
-      <SectionHeading title={copy.heading} path="/about" />
-      <div className="grid sm:grid-cols-[200px_1fr] gap-8 items-start">
-        <Image
-          src="/ali.jpg"
-          alt={copy.photo_alt}
-          width={200}
-          height={200}
-          unoptimized
-          className="photo w-40 sm:w-full h-auto"
-        />
-        <div className="max-w-2xl space-y-5 text-base leading-relaxed">
-          <p className="text-lg">{copy.lead}</p>
-          <p>{copy.how_i_work}</p>
-          <p>{copy.story}</p>
-          <p className="mono-data text-xs text-ink-soft">{copy.education_line}</p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
-            <a href="/cv.pdf" download className="text-link">
-              {copy.cv_label} ↓
+    <section id="about" aria-labelledby="about-title" className="scroll-mt-6 outline-none" tabIndex={-1}>
+      <div className="mx-auto grid max-w-[1240px] gap-12 px-5 py-24 sm:px-14 sm:py-32 md:grid-cols-[minmax(0,0.85fr)_1fr] md:gap-20">
+        <div className="relative">
+          <div className="overflow-hidden rounded-[1.75rem] bg-stone">
+            <Image
+              src="/ali.jpg"
+              alt={copy.photo_alt}
+              width={640}
+              height={640}
+              sizes="(min-width: 768px) 460px, 100vw"
+              className="aspect-[4/5] h-auto w-full object-cover object-[50%_25%]"
+            />
+          </div>
+        </div>
+        <div>
+          <TwoTone id="about-title" lines={copy.heading} />
+          <p className="mt-10 text-[1.6rem] leading-snug tracking-[-0.01em] sm:text-3xl">{copy.lead}</p>
+          <p className="mt-6 text-[17px] leading-relaxed text-soft">{copy.story}</p>
+          <p className="mt-4 text-[17px] leading-relaxed text-soft">{copy.how_i_work}</p>
+          <p className="mt-8 border-t border-hair pt-6 text-[15px] leading-relaxed">{copy.education_line}</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="/cv.pdf"
+              className="inline-flex min-h-12 items-center gap-2 rounded-full bg-ink px-6 font-semibold text-white transition-colors hover:bg-blue"
+            >
+              {copy.cv_label}
+              <ArrowDown aria-hidden className="size-4" strokeWidth={2.4} />
             </a>
-            <span className="text-sm text-ink-soft">{copy.fulltime_line}</span>
+            <a
+              href={LINKEDIN}
+              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-hair px-6 font-semibold transition-colors hover:border-ink"
+            >
+              LinkedIn
+              <ArrowUpRight aria-hidden className="size-4" strokeWidth={2.4} />
+            </a>
           </div>
         </div>
       </div>

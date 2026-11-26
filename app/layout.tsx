@@ -39,7 +39,7 @@ const personSchema = {
   jobTitle: "Software developer",
   url: SITE_URL,
   email: EMAIL,
-  image: `${SITE_URL}/ali.jpg`,
+  image: `${SITE_URL}/ali-portrait.jpg`,
   sameAs: [GITHUB, LINKEDIN],
   address: {
     "@type": "PostalAddress",

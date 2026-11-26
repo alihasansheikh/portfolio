@@ -11,12 +11,12 @@ export default function About({ copy }: { copy: SiteCopy["about"] }) {
         <div className="relative">
           <div className="overflow-hidden rounded-[1.75rem] bg-stone">
             <Image
-              src="/ali.jpg"
+              src="/ali-portrait.jpg"
               alt={copy.photo_alt}
-              width={640}
-              height={640}
+              width={900}
+              height={900}
               sizes="(min-width: 768px) 460px, 100vw"
-              className="aspect-[4/5] h-auto w-full object-cover object-[50%_25%]"
+              className="aspect-[4/5] h-auto w-full object-cover object-[50%_30%]"
             />
           </div>
         </div>

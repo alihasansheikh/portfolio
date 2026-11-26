@@ -103,10 +103,10 @@ export default function Hero({
         className="hero-photo pointer-events-none relative z-0 mx-auto mt-8 h-[25rem] md:absolute md:bottom-0 md:left-[46%] md:mt-0 md:h-[min(78%,640px)] md:-translate-x-1/2"
       >
         <Image
-          src="/ali-cut.webp"
+          src="/ali-cutout.webp"
           alt=""
-          width={609}
-          height={558}
+          width={1242}
+          height={1050}
           priority
           sizes="(min-width: 768px) 700px, 90vw"
           className="h-full w-auto max-w-none"

@@ -15,7 +15,7 @@ export default function ContactSection({ copy }: { copy: SiteCopy["contact"] }) 
       <div className="mx-auto max-w-[1240px] px-5 sm:px-14">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
           <span className="block size-20 shrink-0 overflow-hidden rounded-full bg-stone sm:size-28">
-            <Image src="/ali.jpg" alt="" width={224} height={224} className="size-full object-cover object-[50%_20%]" />
+            <Image src="/ali-portrait.jpg" alt="" width={224} height={224} className="size-full object-cover object-[50%_25%]" />
           </span>
           <h2 id="contact-title" className="text-[2.9rem] leading-none tracking-[-0.035em] sm:text-[clamp(3.5rem,7vw,5.75rem)]">
             {copy.heading[0]}

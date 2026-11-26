@@ -12,9 +12,10 @@ const archivo = Archivo({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: copy.meta.title,
+  title: { default: copy.meta.title, template: "%s · Ali Hasan Sheikh" },
   description: copy.meta.description,
-  alternates: { canonical: "/" },
+  authors: [{ name: "Ali Hasan Sheikh", url: SITE_URL }],
+  creator: "Ali Hasan Sheikh",
   openGraph: {
     title: copy.meta.title,
     description: copy.meta.description,
@@ -45,29 +46,34 @@ const personSchema = {
     addressLocality: "Karachi",
     addressCountry: "PK",
   },
-  knowsAbout: ["Laravel", "PHP", "WordPress", "MySQL", "Java", "Spring Boot", "n8n", "REST API design"],
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Sir Syed University of Engineering and Technology",
+  },
+  knowsAbout: [
+    "Custom CRM development",
+    "Client portals",
+    "Business process automation",
+    "Laravel",
+    "PHP",
+    "Vue.js",
+    "React",
+    "MySQL",
+    "Java",
+    "Spring Boot",
+    "n8n",
+  ],
 };
 
-const serviceSchema = {
+const websiteSchema = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${SITE_URL}/#service`,
-  name: "Ali Hasan Sheikh · custom systems and websites",
-  url: SITE_URL,
-  founder: { "@id": `${SITE_URL}/#person` },
-  areaServed: [
-    { "@type": "Country", name: "United Kingdom" },
-    { "@type": "Place", name: "Worldwide" },
-  ],
-  availableLanguage: "en",
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: copy.services.heading.join(" "),
-    itemListElement: copy.services.items.map((s) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: s.title, description: s.text },
-    })),
-  },
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "Ali Hasan Sheikh",
+  alternateName: "alihasansheikh.com",
+  url: `${SITE_URL}/`,
+  inLanguage: "en-GB",
+  publisher: { "@id": `${SITE_URL}/#person` },
 };
 
 // Runs before first paint: skip the greeting if it already played in this tab.
@@ -87,7 +93,7 @@ export default function RootLayout({
       <body className={archivo.variable}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, serviceSchema]) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, websiteSchema]) }}
         />
         {children}
       </body>

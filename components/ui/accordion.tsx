@@ -2,6 +2,8 @@
 
 // Adapted from shadcn/ui (new-york-v4 accordion). MIT licence.
 // Changes: imports the standalone Radix Accordion package, a plus/minus marker, and this site's tokens.
+// Content is always rendered (forceMount) and hidden with CSS while closed, so the answers and
+// case-study text are in the server HTML for search engines and readers without JavaScript.
 import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Plus } from "lucide-react";
@@ -56,7 +58,8 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Content
       data-slot="accordion-content"
-      className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+      forceMount
+      className="overflow-hidden data-[state=closed]:hidden data-[state=open]:animate-accordion-down motion-reduce:animate-none"
       {...props}
     >
       <div className={cn("pb-8", className)}>{children}</div>

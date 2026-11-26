@@ -13,10 +13,56 @@ import Faq from "@/components/Faq";
 import ContactSection from "@/components/ContactSection";
 import SiteFooter from "@/components/SiteFooter";
 import MotionRoot from "@/components/MotionRoot";
+import type { Metadata } from "next";
+import { SITE_URL, EMAIL, GITHUB, LINKEDIN } from "@/data/links";
+
+export const metadata: Metadata = {
+  title: { absolute: copy.meta.title },
+  alternates: { canonical: "/" },
+};
+
+// Built from the same copy the page shows, so the two cannot drift apart.
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#service`,
+    name: "Ali Hasan Sheikh",
+    description: copy.meta.description,
+    url: `${SITE_URL}/`,
+    image: `${SITE_URL}/opengraph-image`,
+    email: EMAIL,
+    sameAs: [GITHUB, LINKEDIN],
+    founder: { "@id": `${SITE_URL}/#person` },
+    areaServed: [
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Place", name: "Worldwide" },
+    ],
+    availableLanguage: "en",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: copy.services.heading.join(" "),
+      itemListElement: copy.services.items.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: s.title, description: s.text },
+      })),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: copy.faq.items.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
 
 export default function Home() {
   return (
     <MotionRoot>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Preloader greetings={copy.intro.greetings} />
       <a
         href="#main"

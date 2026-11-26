@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import TwoTone from "@/components/TwoTone";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { projects } from "@/data/projects";
@@ -35,6 +35,14 @@ export default function Work({ copy }: { copy: SiteCopy["work"] }) {
                         {c.plain_name}
                       </h3>
                       <p className="mt-5 text-base font-medium text-blue">{c.ask_me_for}</p>
+                      <a
+                        href={`/work/${c.slug}`}
+                        className="group/link mt-6 inline-flex min-h-12 items-center gap-2 rounded-full border border-hair px-6 font-semibold transition-colors hover:border-ink"
+                      >
+                        {copy.read_more}
+                        <span className="sr-only">: {c.label}</span>
+                        <ArrowRight aria-hidden className="size-4 transition-transform group-hover/link:translate-x-1" strokeWidth={2.4} />
+                      </a>
                     </div>
                     <dl className="grid gap-8 sm:grid-cols-2">
                       <div>

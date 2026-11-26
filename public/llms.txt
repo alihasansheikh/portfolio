@@ -1,0 +1,17 @@
+# Ali Hasan Sheikh
+
+> Solo software developer in Karachi, Pakistan, working UK hours (9:00 to 17:30, Monday to Friday). Builds custom CRMs, client portals, job systems, automations, AI assistants and business websites for small businesses, mainly in the UK. Every job gets a fixed price before work starts, and the client owns the code, hosting and accounts.
+
+## Pages
+
+- [Home](https://alihasansheikh.com/): services, how it works, about, FAQ and contact form
+- [Removals company system](https://alihasansheikh.com/work/removals-system): one Laravel system for a UK removals company, from first quote to paid invoice
+- [Property lead pipeline CRM](https://alihasansheikh.com/work/property-pipeline): an 18-stage lead pipeline for a UK property-buying business
+- [BuilderConnect](https://alihasansheikh.com/work/builderconnect): final-year university project, a construction marketplace in Spring Boot and React
+
+## Contact
+
+- Email: alihasansheikh01@gmail.com
+- WhatsApp: https://wa.me/923102022630
+- GitHub: https://github.com/alihasansheikh
+- LinkedIn: https://www.linkedin.com/in/alihasansheikh1

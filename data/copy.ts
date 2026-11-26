@@ -45,7 +45,12 @@ export type SiteCopy = {
       outcomes: string[];
       ask_me_for: string;
       details_label: string;
+      need: NeedValue;
+      seo_title: string;
+      seo_description: string;
     }[];
+    read_more: string;
+    page: { back: string; built_label: string; other_work: string; cta_heading: string; cta_button: string };
     labels: { problem: string; now: string; changed: string };
   };
   how_it_works: { heading: [string, string]; steps: { title: string; text: string; when: string }[] };
@@ -114,9 +119,9 @@ export type SiteCopy = {
 
 export const copy: SiteCopy = {
   meta: {
-    title: "Ali Hasan Sheikh · Custom systems and websites for small businesses",
+    title: "Custom CRM and website developer for UK small businesses · Ali Hasan Sheikh",
     description:
-      "Custom CRMs, client portals, automations and websites for small businesses, built by one developer on UK hours. Fixed price before work starts.",
+      "Custom CRMs, client portals, automations and websites for UK small businesses, built by one developer on UK hours. Fixed price before work starts.",
     og_headline: "I build the systems small businesses run on.",
     og_sub: "Custom CRMs, client portals, automations and websites · UK hours",
   },
@@ -187,6 +192,14 @@ export const copy: SiteCopy = {
     heading: ["Things I", "have built"],
     intro: "Two systems UK companies use every day, and my final-year university project. Client names are left out for privacy.",
     labels: { problem: "The problem", now: "What it does now", changed: "What changed" },
+    read_more: "Read the full case study",
+    page: {
+      back: "All work",
+      built_label: "How it is built",
+      other_work: "More work",
+      cta_heading: "Need something like this?",
+      cta_button: "Tell me about your project",
+    },
     cases: [
       {
         slug: "removals-system",
@@ -205,6 +218,10 @@ export const copy: SiteCopy = {
         ],
         ask_me_for: "Ask me for this if you quote, run and invoice jobs and want it all in one place.",
         details_label: "Engineering detail",
+        need: "systems",
+        seo_title: "Removals CRM: quotes, jobs and invoices in one system",
+        seo_description:
+          "Case study: one Laravel system for a UK removals company, from first quote to paid invoice. Staff run every job in one place; customers open quotes from a link.",
       },
       {
         slug: "property-pipeline",
@@ -223,6 +240,10 @@ export const copy: SiteCopy = {
         ],
         ask_me_for: "Ask me for this if your sales process has rules and every deal must follow them.",
         details_label: "Engineering detail",
+        need: "systems",
+        seo_title: "18-stage property lead pipeline CRM in Laravel",
+        seo_description:
+          "Case study: an 18-stage lead pipeline for a UK property-buying business. Leads cannot skip stages, offer PDFs are generated, and each company sees only its own leads.",
       },
       {
         slug: "builderconnect",
@@ -241,6 +262,10 @@ export const copy: SiteCopy = {
         ],
         ask_me_for: "Ask me for this if you need online payments, live chat or a chatbot inside a web app.",
         details_label: "Engineering detail",
+        need: "other",
+        seo_title: "BuilderConnect: construction marketplace in Spring Boot",
+        seo_description:
+          "My final-year project, graded 100/100: clients post building work, builders bid, and both sides sign a generated contract. Spring Boot, React and Stripe.",
       },
     ],
   },

@@ -1,10 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import TwoTone from "@/components/TwoTone";
-import NeedLink from "@/components/NeedLink";
+import { servicePageFor } from "@/data/services";
 import type { SiteCopy } from "@/data/copy";
 
 // Big text rows. Hovering one fades the others (CSS in globals), slides the row in and
-// shows the arrow. Each row opens the contact form with that kind of work chosen.
+// shows the arrow. Each row opens that service's own page.
 export default function Services({ copy }: { copy: SiteCopy["services"] }) {
   return (
     <section id="services" aria-labelledby="services-title" className="scroll-mt-6 outline-none" tabIndex={-1}>
@@ -17,8 +17,8 @@ export default function Services({ copy }: { copy: SiteCopy["services"] }) {
         <ul className="big-list mt-12 border-t border-hair sm:mt-16">
           {copy.items.map((s) => (
             <li key={s.id} className="big-row border-b border-hair transition-opacity duration-300">
-              <NeedLink
-                need={s.id}
+              <a
+                href={`/services/${servicePageFor(s.id)?.slug}`}
                 className="group grid gap-3 py-8 transition-[padding] duration-500 ease-[var(--ease-out-expo)] sm:py-10 md:grid-cols-[1.25fr_1fr_auto] md:items-center md:gap-10 md:hover:pl-8 motion-reduce:transition-none"
               >
                 <h3 className="text-[1.85rem] leading-[1.05] tracking-[-0.03em] sm:text-[2.6rem] lg:text-5xl">{s.title}</h3>
@@ -31,7 +31,7 @@ export default function Services({ copy }: { copy: SiteCopy["services"] }) {
                     strokeWidth={2.4}
                   />
                 </span>
-              </NeedLink>
+              </a>
             </li>
           ))}
         </ul>

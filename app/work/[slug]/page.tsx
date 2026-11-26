@@ -6,6 +6,7 @@ import { projects } from "@/data/projects";
 import { SITE_URL } from "@/data/links";
 import MotionRoot from "@/components/MotionRoot";
 import SiteFooter from "@/components/SiteFooter";
+import InnerHeader from "@/components/InnerHeader";
 
 type Params = { slug: string };
 
@@ -80,54 +81,16 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
   return (
     <MotionRoot>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <header className="on-stone bg-stone text-ink">
-        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-5 py-6 text-base font-medium sm:px-14 sm:py-8">
-          <a href="/" className="inline-flex min-h-11 items-center">
-            {copy.header.mark}
-          </a>
-          <nav aria-label="Sections">
-            <ul className="flex gap-1 sm:gap-2">
-              <li>
-                <a href="/#work" className="inline-flex min-h-11 items-center px-2 sm:px-3">
-                  {copy.nav[1].label}
-                </a>
-              </li>
-              <li>
-                <a href="/#about" className="inline-flex min-h-11 items-center px-2 sm:px-3">
-                  {copy.nav[3].label}
-                </a>
-              </li>
-              <li>
-                <a href="/#contact" className="inline-flex min-h-11 items-center px-2 sm:px-3">
-                  {copy.nav[4].label}
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <div className="mx-auto max-w-[1240px] px-5 pb-16 pt-6 sm:px-14 sm:pb-24 sm:pt-12">
-          <nav aria-label="Breadcrumb">
-            <ol className="flex flex-wrap items-center gap-2 text-sm font-medium">
-              <li>
-                <a href="/" className="underline-offset-4 hover:underline">Home</a>
-              </li>
-              <li aria-hidden>/</li>
-              <li>
-                <a href="/#work" className="underline-offset-4 hover:underline">Work</a>
-              </li>
-              <li aria-hidden>/</li>
-              <li aria-current="page">{c.label}</li>
-            </ol>
-          </nav>
-          <h1 className="mt-8 max-w-4xl text-[2.3rem] font-[450] leading-[1.08] tracking-[-0.025em] sm:text-[3.6rem]">
-            {c.plain_name}
-          </h1>
-          <p className="mt-6 text-base font-medium">
-            {c.label} · {c.status}
-          </p>
-        </div>
-      </header>
+      <InnerHeader
+        crumbs={[{ label: "Home", href: "/" }, { label: "Work", href: "/#work" }, { label: c.label }]}
+      >
+        <h1 className="mt-8 max-w-4xl text-[2.3rem] font-[450] leading-[1.08] tracking-[-0.025em] sm:text-[3.6rem]">
+          {c.plain_name}
+        </h1>
+        <p className="mt-6 text-base font-medium">
+          {c.label} · {c.status}
+        </p>
+      </InnerHeader>
 
       <main id="main">
         <article className="mx-auto max-w-[1240px] px-5 py-20 sm:px-14 sm:py-28">

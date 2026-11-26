@@ -186,7 +186,7 @@ export const copy: SiteCopy = {
         text: "Your Laravel or PHP app has a fault, needs a feature or has no one looking after it. I read the code as it is, fix it, and can look after it month to month.",
       },
     ],
-    row_cta: "Ask about this",
+    row_cta: "More about this",
   },
   work: {
     heading: ["Things I", "have built"],
@@ -309,7 +309,7 @@ export const copy: SiteCopy = {
   agencies: {
     heading: ["For", "agencies"],
     text: "Got more work than developers? I build and maintain Laravel and PHP projects under your brand, in your repository, on UK hours. Your client deals with you; I stay behind the scenes, under NDA.",
-    link: "Talk to me about white-label work",
+    link: "More about white-label work",
   },
   about: {
     heading: ["About", "me"],

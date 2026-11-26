@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { GITHUB, LINKEDIN } from "@/data/links";
 import type { SiteCopy } from "@/data/copy";
+import { servicePages } from "@/data/services";
 
 function useClock(timeZone: string, zoneName?: string) {
   const [time, setTime] = useState<string | null>(null);
@@ -45,6 +46,18 @@ export default function SiteFooter({ copy }: { copy: SiteCopy["footer"] }) {
               <dd className="mt-2 tabular-nums">{pk ?? "··:··"}</dd>
             </div>
           </dl>
+          <nav aria-labelledby="footer-services">
+            <p id="footer-services" className={label}>Services</p>
+            <ul className="mt-1">
+              {servicePages.map((s) => (
+                <li key={s.slug}>
+                  <a className="inline-flex min-h-9 items-center hover:underline" href={`/services/${s.slug}`}>
+                    {s.nav_label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <div>
             <p className={label}>{copy.elsewhere_label}</p>
             <ul className="mt-1 flex gap-6">

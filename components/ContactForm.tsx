@@ -48,16 +48,6 @@ export default function ContactForm({
     if (wanted && needOptions.some((o) => o.value === wanted)) setValues((v) => ({ ...v, need: wanted }));
   }, [needOptions]);
 
-  // Service rows elsewhere on the page choose the kind of work without a reload.
-  useEffect(() => {
-    const onNeed = (e: Event) => {
-      const wanted = (e as CustomEvent<string>).detail;
-      if (needOptions.some((o) => o.value === wanted)) setValues((v) => ({ ...v, need: wanted }));
-    };
-    window.addEventListener("contact:need", onNeed);
-    return () => window.removeEventListener("contact:need", onNeed);
-  }, [needOptions]);
-
   useEffect(() => {
     if (sent) doneRef.current?.focus();
   }, [sent]);

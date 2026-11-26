@@ -1,5 +1,4 @@
 import TwoTone from "@/components/TwoTone";
-import NeedLink from "@/components/NeedLink";
 import { ArrowRight } from "lucide-react";
 import type { SiteCopy } from "@/data/copy";
 
@@ -33,13 +32,13 @@ export default function WorkingWithMe({
           </h3>
           <div className="on-dark">
             <p className="max-w-[60ch] text-[17px] leading-relaxed text-[#d6d7da]">{agencies.text}</p>
-            <NeedLink
-              need="agency"
+            <a
+              href="/services/white-label-development"
               className="group mt-5 inline-flex min-h-11 items-center gap-2 font-semibold text-white underline-offset-4 hover:underline"
             >
               {agencies.link}
               <ArrowRight aria-hidden className="size-4 transition-transform group-hover:translate-x-1" strokeWidth={2.4} />
-            </NeedLink>
+            </a>
           </div>
         </div>
       </div>

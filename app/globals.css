@@ -335,6 +335,19 @@
   }
 }
 
+/* custom cursor: hide the system pointer only while the custom one is active,
+   and keep the text cursor in form fields */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+html.has-custom-cursor :is(input, textarea, select, [contenteditable="true"]) {
+  cursor: auto !important;
+}
+html.has-custom-cursor :is(input[type="text"], input[type="email"], textarea) {
+  cursor: text !important;
+}
+
 /* hero photo fades into the ground at the bottom */
 .hero-photo {
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 99%);

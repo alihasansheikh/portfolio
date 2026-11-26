@@ -288,7 +288,7 @@ export const copy: SiteCopy = {
     "lead": "I'm Ali. I write software from Karachi, on UK time.",
     "how_i_work": "I agree a fixed price before I start and hand over all the code and logins at the end. You deal with me, not an account manager.",
     "story": "Since December 2025 I have been the sole engineer at Touchperia Digital. I built two production systems there for UK clients, on my own. That meant gathering requirements, modelling the data, writing the code, testing it and deploying it to a Linux VPS.",
-    "education_line": "BS Software Engineering · Sir Syed University of Engineering and Technology, Karachi · Class of 2026 · CGPA 3.86/4.00",
+    "education_line": "BS Software Engineering · Sir Syed University of Engineering and Technology, Karachi · Class of 2026 · CGPA 3.84/4.00",
     "fulltime_line": "Also open to full-time roles.",
     "cv_label": "CV (PDF)",
     "photo_alt": "Ali Hasan Sheikh, software developer, Karachi"

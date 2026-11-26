@@ -87,7 +87,7 @@ export default function Work({ copy }: { copy: SiteCopy["work"] }) {
                           </ul>
                           <dl className="mt-6 grid grid-cols-2 gap-4">
                             {p.metrics.map((m) => (
-                              <div key={m.label} className="flex flex-col-reverse">
+                              <div key={m.label} className="flex flex-col-reverse justify-end">
                                 <dt className="text-sm text-soft">{m.label}</dt>
                                 <dd className="text-2xl font-bold tracking-[-0.02em]">{m.value}</dd>
                               </div>

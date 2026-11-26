@@ -22,9 +22,9 @@ export default function Statement({ copy }: { copy: SiteCopy["statement"] }) {
 
       <dl className="mt-16 grid grid-cols-2 gap-y-10 border-t border-hair sm:mt-24 lg:grid-cols-4">
         {copy.facts.map((f) => (
-          <div key={f.label} className="flex flex-col-reverse pr-6 pt-7">
+          <div key={f.label} className="flex flex-col-reverse justify-end pr-4 pt-7 sm:pr-6">
             <dt className="mt-3 max-w-[22ch] text-[15px] leading-snug text-soft">{f.label}</dt>
-            <dd className="text-[2rem] lg:whitespace-nowrap font-bold leading-none tracking-[-0.035em] sm:text-[2.6rem] lg:text-[2.4rem] xl:text-[2.6rem]">{f.value}</dd>
+            <dd className="text-[1.45rem] min-[400px]:text-[1.6rem] lg:whitespace-nowrap font-bold leading-none tracking-[-0.035em] sm:text-[2.6rem] lg:text-[2rem] xl:text-[2.4rem]">{f.value}</dd>
           </div>
         ))}
       </dl>

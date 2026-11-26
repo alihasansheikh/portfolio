@@ -132,7 +132,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                 </ul>
                 <dl className="mt-8 grid grid-cols-2 gap-6">
                   {p.metrics.map((m) => (
-                    <div key={m.label} className="flex flex-col-reverse">
+                    <div key={m.label} className="flex flex-col-reverse justify-end">
                       <dt className="text-sm text-soft">{m.label}</dt>
                       <dd className="text-3xl font-bold tracking-[-0.02em]">{m.value}</dd>
                     </div>

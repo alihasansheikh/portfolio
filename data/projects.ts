@@ -15,13 +15,13 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "track-your-move",
-    name: "Track Your Move",
+    slug: "removals-system",
+    name: "Removals operations platform",
     status: "In production · UK client",
     statusTone: "prod",
     stack: ["Laravel 10", "Vue 3", "Sanctum", "MySQL"],
     problem:
-      "UK removals companies were running quotations, jobs, invoicing, payments and storage across spreadsheets and disconnected tools — no single system of record, no client-facing views, and no control over who could change what.",
+      "UK removals companies were running quotations, jobs, invoicing, payments and storage across spreadsheets and disconnected tools, with no single system of record, no client-facing views, and no control over who could change what.",
     role:
       "Sole engineer across the full SDLC: requirements, data modelling, implementation, testing, and deployment to a Linux VPS behind Nginx.",
     approach: [
@@ -38,15 +38,15 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "resolute-estate-solutions",
-    name: "Resolute Estate Solutions",
+    slug: "property-pipeline",
+    name: "Property lead pipeline CRM",
     status: "In production · UK client",
     statusTone: "prod",
     stack: ["PHP 8.2", "Laravel 11", "MySQL", "Playwright"],
     problem:
-      "A property-acquisition business needed to move every lead through a long, rule-bound pipeline — and needed certainty that deals could not skip stages, leak across companies, or generate offer documents by hand.",
+      "A property-acquisition business needed to move every lead through a long, rule-bound pipeline, and needed certainty that deals could not skip stages, leak across companies, or generate offer documents by hand.",
     role:
-      "Sole engineer, end to end — from data model to Linux VPS deployment, with an automated test suite guarding the whole flow.",
+      "Sole engineer, end to end: from data model to Linux VPS deployment, with an automated test suite guarding the whole flow.",
     approach: [
       "Modelled an 18-stage lead pipeline with kanban and summary views, and guarded stage-transition workflows so leads can only move along valid paths.",
       "Automated offer-document generation with DomPDF, removing a manual step from every deal.",
@@ -67,11 +67,11 @@ export const projects: Project[] = [
     statusTone: "repo",
     stack: ["Java 17", "Spring Boot 3.2", "React 18 + TS", "MySQL", "Stripe"],
     problem:
-      "Construction clients, builders and suppliers had no common marketplace: no way to post projects, bid, message in real time, or pay — with the abuse, billing and consistency problems a three-sided market brings.",
+      "Construction clients, builders and suppliers had no common marketplace: no way to post projects, bid, message in real time, or pay, and with the abuse, billing and consistency problems a three-sided market brings.",
     role:
       "Designed and built the whole platform: a 110-endpoint REST API, the React front end, billing, real-time messaging, and an AI feature suite.",
     approach: [
-      "Implemented stateless JWT auth — access / refresh rotation, BCrypt, account lockout — with suspension enforced live at the security-filter and WebSocket layers, plus per-IP rate limiting.",
+      "Implemented stateless JWT auth (access / refresh rotation, BCrypt, account lockout), with suspension enforced live at the security-filter and WebSocket layers, plus per-IP rate limiting.",
       "Integrated Stripe subscription billing: hosted checkout, signature-verified webhooks and idempotent payment recording, with per-plan feature limits enforced at the service layer.",
       "Built real-time chat and notifications over STOMP / WebSocket with CONNECT- and SUBSCRIBE-level authorization; modelled orders as a validated state machine with pessimistic row locking.",
       "Shipped an AI suite on a pluggable LLM layer (Anthropic Claude / Google Gemini): a knowledge-grounded FAQ chatbot and structured-JSON floor-plan generation.",
@@ -115,10 +115,10 @@ export const stacks = [
   {
     title: "Data & Infrastructure",
     items: [
-      "MySQL / MariaDB — schema design, indexing, transactions, row locking",
+      "MySQL / MariaDB: schema design, indexing, transactions, row locking",
       "Redis caching",
       "Linux VPS · Nginx / Apache",
-      "CI/CD — GitHub Actions, Jenkins",
+      "CI/CD: GitHub Actions, Jenkins",
       "Git / GitHub",
     ],
   },

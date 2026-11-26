@@ -104,9 +104,8 @@ export async function sendMessage(_prev: ContactState, formData: FormData): Prom
 
   const to = process.env.CONTACT_TO ?? EMAIL;
   const from = process.env.CONTACT_FROM ?? "Website <onboarding@resend.dev>";
-  const needLabel =
-    copy.services.items.find((s) => s.id === need)?.title ??
-    copy.contact.need_options[copy.contact.need_options.length - 1];
+  const options = copy.contact.need_options;
+  const needLabel = (options.find((o) => o.value === need) ?? options[options.length - 1]).label;
 
   const text = [
     `Name: ${name}`,

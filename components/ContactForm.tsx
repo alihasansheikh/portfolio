@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 import Script from "next/script";
 import { sendMessage, type ContactState } from "@/app/actions/contact";
+import Magnet from "@/components/ui/magnet";
 import type { SiteCopy } from "@/data/copy";
 
 type NeedOption = { value: string; label: string };
@@ -47,6 +48,16 @@ export default function ContactForm({
     if (wanted && needOptions.some((o) => o.value === wanted)) setValues((v) => ({ ...v, need: wanted }));
   }, [needOptions]);
 
+  // Service rows elsewhere on the page choose the kind of work without a reload.
+  useEffect(() => {
+    const onNeed = (e: Event) => {
+      const wanted = (e as CustomEvent<string>).detail;
+      if (needOptions.some((o) => o.value === wanted)) setValues((v) => ({ ...v, need: wanted }));
+    };
+    window.addEventListener("contact:need", onNeed);
+    return () => window.removeEventListener("contact:need", onNeed);
+  }, [needOptions]);
+
   useEffect(() => {
     if (sent) doneRef.current?.focus();
   }, [sent]);
@@ -81,9 +92,9 @@ export default function ContactForm({
       </p>
 
       {sent ? (
-        <div ref={doneRef} tabIndex={-1} className="spec-card p-6 sm:p-8">
-          <p className="display text-2xl">{copy.success_title}</p>
-          <p className="mt-3 text-base leading-relaxed text-ink-soft max-w-md">{copy.success_text}</p>
+        <div ref={doneRef} tabIndex={-1} className="mt-12 border-y border-dark-line py-12 outline-none">
+          <p className="text-3xl tracking-[-0.02em] sm:text-4xl">{copy.success_title}</p>
+          <p className="mt-4 max-w-md text-[17px] leading-relaxed text-dark-soft">{copy.success_text}</p>
         </div>
       ) : (
         <form
@@ -91,7 +102,7 @@ export default function ContactForm({
           action={formAction}
           onSubmit={handleSubmit}
           noValidate
-          className="spec-card p-6 sm:p-8 space-y-5"
+          className="mt-10 sm:mt-14"
         >
           {/* Honeypot: removed from the layout, so no browser autofill can reach it. */}
           <div className="hp" aria-hidden="true">
@@ -99,7 +110,7 @@ export default function ContactForm({
             <input id="hp_9c2" name="hp_9c2" type="text" tabIndex={-1} autoComplete="off" />
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-5">
+          <div className="grid gap-x-14 sm:grid-cols-2">
             <Field id="name" label={copy.name_label} error={errors.name}>
               <input
                 id="name"
@@ -143,7 +154,7 @@ export default function ContactForm({
               aria-invalid={errors.need ? true : undefined}
               aria-describedby={errors.need ? "need-error" : undefined}
             >
-              <option value="">Choose one</option>
+              <option value="">{copy.need_placeholder}</option>
               {needOptions.map((o) => (
                 <option key={o.value} value={o.value}>
                   {o.label}
@@ -156,7 +167,7 @@ export default function ContactForm({
             <textarea
               id="message"
               name="message"
-              className="input min-h-32"
+              className="input min-h-28"
               rows={5}
               required
               maxLength={4000}
@@ -184,16 +195,24 @@ export default function ContactForm({
           {TURNSTILE_SITE_KEY && (
             <>
               <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" />
-              <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-size="flexible" />
+              <div className="cf-turnstile mt-6" data-sitekey={TURNSTILE_SITE_KEY} data-size="flexible" data-theme="dark" />
             </>
           )}
 
-          <div className="flex flex-wrap items-center gap-4">
-            {/* aria-disabled rather than disabled: a disabled button loses keyboard focus. */}
-            <button type="submit" className="btn btn-primary" aria-disabled={pending}>
-              {pending ? copy.sending : copy.button}
-            </button>
-            <p aria-live="polite" className="text-sm text-[var(--error)]">
+          <div className="relative mt-16 border-t border-dark-line sm:mt-24">
+            <div className="flex justify-end pr-2 sm:pr-24 -translate-y-1/2">
+              <Magnet padding={60} magnetStrength={3}>
+                {/* aria-disabled rather than disabled: a disabled button loses keyboard focus. */}
+                <button
+                  type="submit"
+                  aria-disabled={pending}
+                  className="grid size-36 place-items-center rounded-full bg-blue px-6 text-center text-base font-medium leading-tight text-white transition-colors hover:bg-blue-hover aria-disabled:opacity-70 sm:size-44 sm:text-lg"
+                >
+                  {pending ? copy.sending : copy.button}
+                </button>
+              </Magnet>
+            </div>
+            <p aria-live="polite" className="-mt-10 max-w-xl text-[15px] leading-relaxed text-[var(--error-dark)] sm:-mt-16">
               {state.status === "error" ? state.message : ""}
             </p>
           </div>
@@ -216,7 +235,7 @@ function Field({
 }) {
   return (
     <div className="field">
-      <label htmlFor={id} className="eyebrow">
+      <label htmlFor={id}>
         {label}
       </label>
       {children}

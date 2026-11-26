@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 import { copy } from "@/data/copy";
 import { SITE_URL, EMAIL, GITHUB, LINKEDIN } from "@/data/links";
@@ -8,12 +8,6 @@ const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-archivo",
   axes: ["wdth"],
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
 });
 
 export const metadata: Metadata = {
@@ -41,7 +35,7 @@ const personSchema = {
   "@type": "Person",
   "@id": `${SITE_URL}/#person`,
   name: "Ali Hasan Sheikh",
-  jobTitle: "Software Developer",
+  jobTitle: "Software developer",
   url: SITE_URL,
   email: EMAIL,
   image: `${SITE_URL}/ali.jpg`,
@@ -58,30 +52,39 @@ const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": `${SITE_URL}/#service`,
-  name: "Ali Hasan Sheikh · software development",
+  name: "Ali Hasan Sheikh · custom systems and websites",
   url: SITE_URL,
   founder: { "@id": `${SITE_URL}/#person` },
-  areaServed: { "@type": "Country", name: "United Kingdom" },
+  areaServed: [
+    { "@type": "Country", name: "United Kingdom" },
+    { "@type": "Place", name: "Worldwide" },
+  ],
   availableLanguage: "en",
-  priceRange: "$49 - $999",
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: copy.services.heading,
+    name: copy.services.heading.join(" "),
     itemListElement: copy.services.items.map((s) => ({
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name: s.title, description: s.what_i_do },
-      priceCurrency: "USD",
-      price: s.from_price.replace(/[^0-9.]/g, ""),
+      itemOffered: { "@type": "Service", name: s.title, description: s.text },
     })),
   },
 };
+
+// Runs before first paint: skip the greeting if it already played in this tab.
+const introScript = `try{if(sessionStorage.getItem('intro-seen'))document.documentElement.setAttribute('data-intro-seen','')}catch(e){}`;
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-GB">
-      <body className={`${archivo.variable} ${plexMono.variable}`}>
+    <html lang="en-GB" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+        <noscript>
+          <style>{`[data-reveal]{transform:none!important}`}</style>
+        </noscript>
+      </head>
+      <body className={archivo.variable}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([personSchema, serviceSchema]) }}

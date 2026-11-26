@@ -1,239 +1,175 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 /* ————————————————————————————————————————————————
-   Token system — "engineering spec sheet"
-   paper   : cool drafting paper, faint grid
-   ink     : deep pine ink
-   cobalt  : blueprint accent (requests, links, GET)
-   post    : green (POST — Swagger convention)
-   rule    : hairline dividers
+   Tokens
+   stone  : grey hero ground, behind the cut-out photo
+   paper  : white body
+   ink    : near-black text, and the dark contact section
+   blue   : the one accent (round buttons, small labels, focus)
 ———————————————————————————————————————————————— */
 :root {
-  --paper: #f2f5f4;
-  --paper-raised: #fafcfb;
-  --ink: #0e1b17;
-  --ink-soft: #44544f;
-  --cobalt: #2242c8;
-  --cobalt-soft: #e6eafd;
-  --post-green: #0b7a4b;
-  --post-green-soft: #e2f2ea;
-  --rule: #d7dfdc;
-  --grid: rgba(20, 45, 38, 0.045);
+  --stone: #8d9192;
+  --paper: #ffffff;
+  --ink: #1c1d20;
+  --soft: #55585f;
+  --muted: #868a91; /* large text only: 3.5:1 on white */
+  --hair: #e3e4e6;
+  --dark-line: #36383d;
+  --dark-soft: #a9acb2;
+  --blue: #455ce9;
+  --blue-hover: #3449cf;
   --error: #b42318;
+  --error-dark: #ff9b8f;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 @theme inline {
+  --color-stone: var(--stone);
   --color-paper: var(--paper);
-  --color-paper-raised: var(--paper-raised);
   --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-cobalt: var(--cobalt);
-  --color-cobalt-soft: var(--cobalt-soft);
-  --color-rule: var(--rule);
+  --color-soft: var(--soft);
+  --color-muted: var(--muted);
+  --color-hair: var(--hair);
+  --color-dark-line: var(--dark-line);
+  --color-dark-soft: var(--dark-soft);
+  --color-blue: var(--blue);
+  --color-blue-hover: var(--blue-hover);
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --animate-marquee: marquee var(--duration) infinite linear;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - var(--gap))); }
+  }
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    background: var(--ink);
   }
 
   body {
-    background-color: var(--paper);
-    /* faint drafting grid — the quiet signature of the whole page */
-    background-image:
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 28px 28px;
+    background: var(--paper);
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p, li, dd {
+    text-wrap: pretty;
   }
 
   ::selection {
-    background: var(--cobalt);
-    color: var(--paper);
+    background: var(--blue);
+    color: #fff;
   }
 
-  /* Visible keyboard focus everywhere */
   a:focus-visible,
   button:focus-visible,
   summary:focus-visible,
-  [tabindex="0"]:focus-visible {
-    outline: 2px solid var(--cobalt);
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--blue);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 4px;
+  }
+  .on-dark a:focus-visible,
+  .on-dark button:focus-visible,
+  .on-dark summary:focus-visible {
+    outline-color: #fff;
+  }
+  .on-stone a:focus-visible,
+  .on-stone button:focus-visible {
+    outline-color: var(--ink);
   }
 }
 
-/* Component classes live in the components layer so Tailwind utilities (hidden, lg:inline, ...) can override them. */
 @layer components {
-  /* ————— type roles (five sizes: 12 / 14 / 16 / 18 / display) ————— */
-  .display {
-    font-family: var(--font-sans);
-    font-weight: 750;
-    font-stretch: 112%;
-    letter-spacing: -0.02em;
-    line-height: 1.02;
-  }
-
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+  /* ————— two-tone section headings ————— */
+  .two-tone {
+    font-weight: 850;
+    font-stretch: 104%;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    letter-spacing: -0.02em;
+    line-height: 0.92;
   }
 
-  .mono-data {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
+  /* ————— big text lists (services, work): hovering one row fades the others ————— */
+  .big-list:has(.big-row:hover) .big-row:not(:hover) {
+    opacity: 0.35;
   }
 
-  /* endpoint caption: the motif, demoted to a secondary detail */
-  .path-caption {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--ink-soft);
+  /* ————— contact form, on the dark section ————— */
+  .field {
+    display: grid;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--dark-line);
+    padding: 1.25rem 0 0.5rem;
+    transition: border-color 200ms ease;
   }
-
-  /* ————— method chips ————— */
-  .method {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    padding: 0.1rem 0.4rem;
-    border-radius: 3px;
+  .field:focus-within {
+    border-color: #fff;
   }
-  .method-get {
-    color: var(--cobalt);
-    background: var(--cobalt-soft);
+  .field > label {
+    font-size: 0.875rem;
+    color: var(--dark-soft);
   }
-  .method-post {
-    color: var(--post-green);
-    background: var(--post-green-soft);
-  }
-
-  /* ————— navigation ————— */
-  .nav-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    min-height: 44px;
+  .input {
+    width: 100%;
+    min-height: 48px;
+    background: transparent;
+    border: 0;
     padding: 0.25rem 0;
-    font-size: 0.95rem;
-    color: var(--ink);
-    text-decoration: none;
-    transition: color 120ms ease;
+    font: inherit;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    color: #fff;
   }
-  .nav-link:hover {
-    color: var(--cobalt);
+  .input:focus-visible {
+    outline: none;
   }
-  /* mobile: one scrolling row, no visible scrollbar */
-  .nav-row {
-    scrollbar-width: none;
+  .field:has(.input:focus-visible) {
+    outline: 2px solid #fff;
+    outline-offset: 6px;
+    border-radius: 2px;
   }
-  .nav-row::-webkit-scrollbar {
+  textarea.input {
+    resize: vertical;
+    line-height: 1.4;
+  }
+  select.input {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%23a9acb2' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    padding-right: 2rem;
+  }
+  select.input option {
+    background: var(--ink);
+    color: #fff;
+  }
+  .input::placeholder {
+    color: #7d8087;
+  }
+  .field:has([aria-invalid="true"]) {
+    border-color: var(--error-dark);
+  }
+  .field-error {
+    font-size: 0.875rem;
+    color: var(--error-dark);
+  }
+  .hp {
     display: none;
   }
 
-  /* ————— text links: at least 44px tall so they are easy to tap ————— */
-  .text-link {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-color: var(--rule);
-    transition: color 120ms ease, text-decoration-color 120ms ease;
-  }
-  .text-link:hover {
-    color: var(--cobalt);
-    text-decoration-color: var(--cobalt);
-  }
-  .text-link-inverse {
-    color: var(--paper);
-    text-decoration-color: rgba(242, 245, 244, 0.4);
-  }
-  .text-link-inverse:hover {
-    color: var(--paper);
-    text-decoration-color: var(--paper);
-  }
-
-  /* ————— ruled row lists (services, process) ————— */
-  .row-list {
-    border-bottom: 1px solid var(--rule);
-  }
-  .row-list > li {
-    border-top: 1px solid var(--rule);
-  }
-
-  /* ————— status chips on case studies (encode true deploy status) ————— */
-  .status-chip {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.55rem;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-  .status-prod {
-    color: var(--post-green);
-    background: var(--post-green-soft);
-  }
-  .status-repo {
-    color: var(--cobalt);
-    background: var(--cobalt-soft);
-  }
-
-  /* ————— spec card ————— */
-  .spec-card {
-    background: var(--paper-raised);
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  /* the one inversion per card: engineering readout */
-  .readout {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .readout .readout-label {
-    font-size: 0.75rem;
-    color: rgba(242, 245, 244, 0.6);
-  }
-
-  /* ————— tech chip ————— */
-  .tech-chip {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--ink-soft);
-    border: 1px solid var(--rule);
-    background: var(--paper);
-    padding: 0.2rem 0.5rem;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-
-  /* ————— native disclosures: engineering detail, full stack, FAQ ————— */
-  .disclosure {
-    border-top: 1px solid var(--rule);
-  }
-  .disclosure > summary,
-  .faq-item > summary {
+  /* ————— native disclosure (engineering detail, full stack list) ————— */
+  .disclosure > summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -241,25 +177,15 @@
     min-height: 52px;
     cursor: pointer;
     list-style: none;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: var(--ink);
-    transition: color 120ms ease;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: color 160ms ease;
   }
-  .disclosure > summary {
-    padding: 0.6rem 1.5rem;
-  }
-  /* .spec-card sets overflow:hidden, which would clip an outside ring */
-  .disclosure > summary:focus-visible {
-    outline-offset: -4px;
-  }
-  .disclosure > summary::-webkit-details-marker,
-  .faq-item > summary::-webkit-details-marker {
+  .disclosure > summary::-webkit-details-marker {
     display: none;
   }
-  .disclosure > summary:hover,
-  .faq-item > summary:hover {
-    color: var(--cobalt);
+  .disclosure > summary:hover {
+    color: var(--blue);
   }
   .disclosure-marker {
     position: relative;
@@ -282,123 +208,29 @@
     transform: scaleY(0);
   }
 
-  .faq-item {
-    border-top: 1px solid var(--rule);
-  }
-  .faq-item > summary {
-    font-family: var(--font-sans);
-    font-size: 1.05rem;
-    font-weight: 500;
-    padding: 0.85rem 0;
-  }
-
-  /* ————— buttons ————— */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 44px;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 0.6rem 1.15rem;
-    border-radius: 4px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-  }
-  .btn-primary {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .btn-primary:hover {
-    background: var(--cobalt);
-  }
-  .btn-primary:disabled {
-    opacity: 0.6;
-    cursor: progress;
-  }
-  .btn-ghost {
-    border: 1px solid var(--rule);
-    background: var(--paper-raised);
-    color: var(--ink);
-  }
-  .btn-ghost:hover {
-    border-color: var(--cobalt);
-    color: var(--cobalt);
-  }
-
-  /* ————— contact form ————— */
-  .field {
-    display: grid;
-    gap: 0.45rem;
-  }
-  .input {
-    width: 100%;
-    min-height: 44px;
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 0.65rem 0.85rem;
-    font: inherit;
-    font-size: 1rem;
-    color: var(--ink);
-    transition: border-color 120ms ease;
-  }
-  .input::placeholder {
-    color: var(--ink-soft);
-  }
-  .input:hover {
-    border-color: #b8c4bf;
-  }
-  .input:focus-visible {
-    outline: 2px solid var(--cobalt);
-    outline-offset: 2px;
-    border-color: var(--cobalt);
-  }
-  .input[aria-invalid="true"] {
-    border-color: var(--error);
-  }
-  .field-error {
-    font-size: 0.875rem;
-    color: var(--error);
-  }
-  /* honeypot: removed from the layout, so autofill skips it but HTML-parsing bots do not */
-  .hp {
-    display: none;
-  }
-
-  /* ————— photo ————— */
-  .photo {
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-  }
-
   /* ————— system diagram ————— */
   .diagram-box {
-    fill: var(--paper-raised);
+    fill: #f6f6f7;
     stroke: var(--ink);
     stroke-width: 1.2;
   }
   .diagram-label {
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    letter-spacing: 0.04em;
+    font-size: 13px;
+    font-weight: 600;
     fill: var(--ink);
   }
   .diagram-sublabel {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    fill: var(--ink-soft);
+    font-size: 12px;
+    fill: var(--soft);
   }
   .diagram-path {
-    stroke: var(--cobalt);
+    stroke: var(--blue);
     stroke-width: 1.2;
     stroke-dasharray: 4 4;
     fill: none;
   }
   .diagram-dot {
-    fill: var(--cobalt);
+    fill: var(--blue);
     transform-box: view-box;
     transform-origin: 0 0;
     animation: diagram-travel 6s linear infinite;
@@ -411,7 +243,6 @@
     70% { transform: translate(330px, 64px); }
     100% { transform: translate(116px, 64px); }
   }
-  /* WCAG 2.2.2: any visitor can stop the motion, not only those with a system setting */
   .diagram-figure:has(#pause-diagram:checked) .diagram-dot {
     animation-play-state: paused;
   }
@@ -419,9 +250,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--ink-soft);
+    font-size: 0.875rem;
+    color: var(--soft);
   }
   .motion-toggle label {
     display: inline-flex;
@@ -430,14 +260,60 @@
     cursor: pointer;
   }
   .motion-toggle input {
-    accent-color: var(--cobalt);
+    accent-color: var(--blue);
     width: 1rem;
     height: 1rem;
   }
   .diagram-note {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    fill: var(--cobalt);
+    font-size: 12px;
+    fill: var(--blue);
+  }
+
+  /* ————— intro greeting ————— */
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    background: #141517;
+    color: #fff;
+    /* The exit is CSS-only, so the page never stays covered even if JavaScript fails. */
+    animation: preloader-exit 0.9s var(--ease-in-out) 2.1s forwards;
+  }
+  .preloader::after {
+    content: "";
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    top: 100%;
+    height: 18vh;
+    background: #141517;
+    border-radius: 0 0 50% 50%;
+  }
+  @keyframes preloader-exit {
+    to {
+      transform: translateY(calc(-100% - 18vh));
+      visibility: hidden;
+    }
+  }
+  .preloader-word {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .preloader-word::before {
+    content: "";
+    width: 0.2em;
+    height: 0.2em;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  html[data-intro-seen] .preloader {
+    display: none;
   }
 }
 
@@ -445,10 +321,22 @@
   html {
     scroll-behavior: auto;
   }
+  .preloader {
+    display: none;
+  }
   .diagram-dot {
     display: none;
   }
   .disclosure-marker::after {
     transition: none;
   }
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+/* hero photo fades into the ground at the bottom */
+.hero-photo {
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 99%);
 }
